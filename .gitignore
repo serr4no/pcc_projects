@@ -1,0 +1,14 @@
+# Virtual environment
+.venv/
+
+# Python cache / compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# VS Code settings (optional to ignore)
+.vscode/
+
+# Common temporary stuff
+*.log
