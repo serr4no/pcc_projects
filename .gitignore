@@ -7,8 +7,11 @@ __pycache__/
 *.pyo
 *.pyd
 
-# VS Code settings (optional to ignore)
+# VS Code settings (optional)
 .vscode/
 
-# Common temporary stuff
+# macOS Finder metadata
+.DS_Store
+
+# Logs or temp files
 *.log
