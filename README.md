@@ -5,7 +5,7 @@ This repository contains the three major projects from *Python Crash Course, 3rd
 - **Alien Invasion**
 - **Data Visualization**
 - **Web Application**
-is 
+ 
 A shared virtual environment is used for all projects, and each project has its own folder.
 
 ## Project Structure
@@ -14,6 +14,7 @@ pcc_projects/
 │-- alien_invasion/
 │-- data_visualization/
 │-- web_app/
+|-- sideways_shooter/
 │-- .venv/ # ignored
 │-- .gitignore
 │-- .gitattributes
