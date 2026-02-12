@@ -11,7 +11,7 @@ class Alien(Sprite):
         self.settings = ai_game.settings
 
         # Load the alient image and set its rect attribute.
-        self.image = pygame.image.load('alien_invasion/images/alien.bmp')
+        self.image = pygame.image.load('sideways_shooter/images/alien.bmp')
         self.rect = self.image.get_rect()
 
         # Start each new alien near the top left of the screen.
@@ -19,15 +19,15 @@ class Alien(Sprite):
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
 
-        # Store the alien's exact horizontal position.
+        # Store the alien's exact vertical position.
         self.y = float(self.rect.y)
 
     def check_edges(self):
         """Return True if alien as at the edge of screen."""
         screen_rect = self.screen.get_rect()
-        return (self.rect.right >= screen_rect.right) or (self.rect.left <= 0)
+        return (self.rect.bottom >= screen_rect.bottom) or (self.rect.top <= screen_rect.top)
 
     def update(self):
-        """Move the alien up or down."""
+        """Move the alien right or left."""
         self.y += self.settings.alien_speed * self.settings.fleet_direction
         self.rect.y = self.y
