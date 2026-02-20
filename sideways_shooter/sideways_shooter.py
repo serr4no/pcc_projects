@@ -1,7 +1,10 @@
 import sys
+from time import sleep
+
 import pygame
 
 from settings import Settings
+from game_stats import GameStats
 from rocket import Rocket
 from bullet import Bullet
 from alien import Alien
@@ -20,19 +23,28 @@ class SidewaysShooter:
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Sideways Shooter")
 
+        # Create an instance to store game statistics.
+        self.stats = GameStats(self)
+
         self.rocket = Rocket(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
 
         self._create_fleet()
 
+        # Star Alien Invasion in an active state.
+        self.game_active = True
+
     def run_game(self):
         """Start the main loop for the game."""
         while True:
             self._check_events()
-            self.rocket.update()
-            self._update_bullets()
-            self._update_aliens()
+
+            if self.game_active:
+                self.rocket.update()
+                self._update_bullets()
+                self._update_aliens()
+            
             self._update_screen()
             self.clock.tick(60)
 
@@ -101,6 +113,13 @@ class SidewaysShooter:
         self._check_fleet_edges()
         self.aliens.update()
 
+        # Look for alien-ship collisions.
+        if pygame.sprite.spritecollideany(self.rocket, self.aliens):
+            self._rocket_hit()
+
+        # Look for aliens hitting the bottom of the screen.
+        self._check_aliens_bottom()
+
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
         self.screen.fill(self.settings.bg_color)
@@ -145,6 +164,33 @@ class SidewaysShooter:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+
+    def _rocket_hit(self):
+        """Respond to ship being hit by an alien."""
+        if self.stats.rockets_left > 0:
+            # Decrement ships_left.
+            self.stats.rockets_left -= 1
+
+            # Get rid of any remaining bullets and aliens.
+            self.bullets.empty()
+            self.aliens.empty()
+
+            # Create a new fleet and center the ship.
+            self._create_fleet()
+            self.rocket.center_rocket()
+        else:
+            self.game_active = False
+
+        # Pause.
+        sleep(0.5)
+
+    def _check_aliens_bottom(self):
+        """Check if any aliens have reached the bottom of the screen."""
+        for alien in self.aliens.sprites():
+            if alien.rect.left <= self.rocket.rect.right:
+                # Treat this the same as if the ship got hit.
+                self._rocket_hit()
+                break
 
 if __name__ == '__main__':
     # Make a game instance, and run the game.
