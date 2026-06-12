@@ -5,6 +5,12 @@ This repository contains the three major projects from *Python Crash Course, 3rd
 - **Alien Invasion**
 - **Data Visualization**
 - **Web Application**
+
+Additionally, larger exercises such as:
+
+- **Sideways Shooter**
+
+have been included.
  
 A shared virtual environment is used for all projects, and each project has its own folder.
 
